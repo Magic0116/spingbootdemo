@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Title</title>
+    <script src="https://how2j.cn/study/js/jquery/2.0.0/jquery.min.js"></script>
+    <link href="https://how2j.cn/study/css/bootstrap/3.3.6/bootstrap.min.css" rel="stylesheet">
+    <script src="https://how2j.cn/study/js/bootstrap/3.3.6/bootstrap.min.js"></script>
+    <script src="https://how2j.cn/study/vue.min.js"></script>
+
+</head>
+<body>
+<div id="div1">
+    <table class="table table-bordered">
+        <tr>
+            <td>name</td>
+            <td>hp</td>
+            <td colspan="2" align="center">操作</td>
+        </tr>
+        <tr v-for="hero in heros">
+            <td>{{hero.name}}</td>
+            <td>{{hero.hp}}</td>
+            <td>
+                <a href="#nowhere" @click="deleteHero(hero.id)">删除</a>
+            </td>
+            <td>
+                <a href="#nowhere" @click="edit(hero)">编辑</a>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                英雄名称 <input class="form-control" type="text" v-model=" hero4Add.name">
+                <br>
+                血量 <input class="form-control" type="number" v-model="hero4Add.hp">
+                <br>
+                <button class="btn btn-success" type="button" v-on:click="add">增加</button>
+
+            </td>
+        </tr>
+    </table>
+    <div id="div4Update">
+        <table class="table table-bordered">
+            英雄名称:
+            英雄名称 <input class="form-control" type="text" v-model=" hero4Add.name">
+            <br>
+            血量：
+            血量 <input class="form-control" type="number" v-model="hero4Add.hp">
+            <input class="form-control " type="hidden"  v-model="hero4Update.id"/>
+            <br>
+            <button class="btn btn-success" type="button" v-on:click="update">修改</button>
+            <button class="btn btn-danger" type="button" v-on:click="cancel">取消</button>
+        </table>
+
+
+    </div>
+</div>
+<script type="text/javascript">
+
+    $("#div4Update").hide();
+    //Model
+    var data = {
+        heros: [
+            {id: 1, name: '盖伦', hp: 318},
+            {id: 2, name: '提莫', hp: 320},
+            {id: 3, name: '安妮', hp: 419},
+            {id: 4, name: '死歌', hp: 325},
+            {id: 5, name: '米波', hp: 422},
+        ],
+        hero4Add: {id: 0, name: '', hp: '0'},
+        hero4Update: {id: 0, name: '', hp: '0'}
+    };
+    //用于记录最大id值
+    var maxId = 5;
+    //计算最大值
+    for (var i = 0; i < data.heros.length; i++) {
+        if (data.heros[i].id > maxId)
+            maxId = this.heros[i].id;
+    }
+    //ViewModel
+    var vue = new Vue({
+        el: '#div1',
+        data: data,
+        methods: {
+            add: function (event) {
+                maxId++;
+                //赋予新的ID
+                this.hero4Add.id = maxId;
+                if (this.hero4Add.name.length == 0)
+                    this.hero4Add.name = "Hero#" + this.hero4Add.id;
+                //把对象加到数组中
+                this.heros.push(this.hero4Add);
+                this.hero4Add = {id: 0, name: '', hp: '0'}
+            },
+            deleteHero: function (id) {
+                // console.log("id"+id);
+                for (var i = 0; i < this.heros.length; i++) {
+                    if (this.heros[i].id == id) {
+                        this.heros.splice(i, 1);
+                        break;
+                    }
+                }
+            },
+            edit: function (hero) {
+                // $("#heroListTable").hide();
+                $("#div4Update").show();
+                this.hero4Update = hero;
+            },
+            update: function () {
+                //因为v-model，已经同步修改了，所以只需要进行恢复显示就行了
+                $("#heroListTable").show();
+                $("#div4Update").hide();
+            },
+            cancel: function () {
+                //其实就是恢复显示
+                $("#heroListTable").show();
+                $("#div4Update").hide();
+            }
+        }
+    });
+</script>
+</body>
+</html>

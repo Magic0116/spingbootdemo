@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/admin/adminHeader::html('编辑产品')" ></head>
+<body>
+<div class="layui-layout layui-layout-admin" id="workingArea">
+    <div class="layui-header">
+        <div class="layui-logo">商城后台管理系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="admin">所有产品</a></li>
+            <li class="layui-nav-item">
+                <!--                <a href="'admin_product_list?cid='+category.id">{{category.name}}</a>-->
+                {{category.name}}
+                <!--            <li class="layui-nav-item">-->
+                <!--                <a href="javascript:;">nav groups</a>-->
+                <!--                <dl class="layui-nav-child">-->
+                <!--                    <dd><a href="">menu 11</a></dd>-->
+                <!--                    <dd><a href="">menu 22</a></dd>-->
+                <!--                    <dd><a href="">menu 33</a></dd>-->
+                <!--                </dl>-->
+                <!--            </li>-->
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                         class="layui-nav-img">
+                    当前用户
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">set 1</a></dd>
+                    <dd><a href="">set 2</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">登陆</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">商品管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="admin">商品分类</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="admin_user_list">用户信息</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="admin_order_list">订单管理</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <div class="layui-bg-gray" style="padding: 30px;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div >编辑产品</div>
+                        <div class="layui-panel">
+                            <div style="padding: 50px 30px;">
+                                <table class="layui-table">
+                                    <tr>
+                                        <td>产品名称</td>
+                                        <td><input @keyup.enter="update" v-model.trim="bean.name" type="text"
+                                                   class="layui-input" placeholder="请输入新增产品名称"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>产品小标题</td>
+                                        <td><input @keyup.enter="update" v-model.trim="bean.subTitle" type="text"
+                                                   class="layui-input" placeholder="请输入新增产品小标题"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>原价格</td>
+                                        <td><input @keyup.enter="update" v-model.trim="bean.originalPrice" type="text"
+                                                   class="layui-input" placeholder="请输入原价格"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>优惠价格</td>
+                                        <td><input @keyup.enter="update" v-model.trim="bean.promotePrice" type="text"
+                                                   class="layui-input" placeholder="请输入优惠"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>库存</td>
+                                        <td><input @keyup.enter="update" v-model.trim="bean.stock" type="text"
+                                                   class="layui-input" placeholder="请输入库存"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2" align="center">
+                                            <input type="hidden" name="id"   v-model.trim="bean.id" >
+                                            <a href="#nowhere" @click="update" class="layui-btn">提交</a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            底部固定区域
+        </div>
+    </div>
+
+</div>
+</body>
+<script th:src="@{/static/layui/layui.js}"></script>
+<script>
+    $(function(){
+        var data4Vue = {
+            uri: 'products',
+            listURL:'admin_product_list',
+            bean: '',
+            category:''
+        };
+     //viewModel
+      var vue = new Vue({
+           el:'#workingArea',
+           data:data4Vue,
+           mounted:function (){
+               this.get();
+           },
+           methods: {
+               get: function () {
+                   var id = getUrlParms("id");
+                   var url = this.uri + "/" + id;
+                   axios.get(url).then(function (response) {
+                       vue.bean = response.data;
+                       vue.category = vue.bean.category;
+                   })
+               },
+               update: function () {
+                   if (!checkEmpty(this.bean.name, "产品名称"))
+                       return;
+                   if (!checkEmpty(this.bean.subTitle, "小标题"))
+                       return;
+                   if (!checkNumber(this.bean.originalPrice, "原价格"))
+                       return;
+                   if (!checkNumber(this.bean.promotePrice, "优惠价格"))
+                       return;
+                   if (!checkInt(this.bean.stock, "库存"))
+                       return;
+                   var url = this.uri;
+                   axios.put(url, vue.bean).then(function (response) {
+                       location.href = vue.listURL + "?cid=" + vue.category.id;
+                   });
+               }
+           }
+       });
+  });
+</script>
+</html>

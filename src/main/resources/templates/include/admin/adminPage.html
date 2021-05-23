@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="html" class="layui-btn-container" align="center">
+    <!--    <nav>-->
+    <!--        <ul >-->
+    <!--            <li>-->
+    <!--                <a  href="#nowhere" @click="jump('first')">«</a>-->
+    <!--            </li>-->
+    <!--            <li>-->
+    <!--                <a  href="#nowhere" @click="jump('pre')">‹</a>-->
+    <!--            </li>-->
+
+    <!--            <li  v-for="i in pagination.navigatepageNums">-->
+    <!--                <a href="#nowhere" @click="jumpByNumber(i-1)" >-->
+    <!--                    {{i}}-->
+    <!--                </a>-->
+    <!--            </li>-->
+
+    <!--            <li>-->
+    <!--                <a  href="#nowhere" @click="jump('next')">›</a>-->
+    <!--            </li>-->
+    <!--            <li >-->
+    <!--                <a  href="#nowhere" @click="jump('last')"> »</a>-->
+    <!--            </li>-->
+    <!--        </ul>-->
+    <!--    </nav>-->
+    <button type="button" class="layui-btn">
+            <a href="#nowhere" @click="jump('first')">首页</a>
+    </button>
+    <button type="button" class="layui-btn">
+            <a href="#nowhere" @click="jump('pre')">前一页</a>
+    </button>
+    <button type="button" class="layui-btn layui-btn-primary">
+        <i class="layui-icon" v-for="i in pagination.navigatepageNums">
+            <a href="#nowhere" @click="jumpByNumber(i-1)" >
+                                {{i}}
+            </a>
+        </i>
+    </button>
+    <button type="button" class="layui-btn">
+            <a  href="#nowhere" @click="jump('next')">下一页</a>
+        </button>
+    <button type="button" class="layui-btn">
+            <a  href="#nowhere" @click="jump('last')"> 末页</a>
+    </button>
+</div>

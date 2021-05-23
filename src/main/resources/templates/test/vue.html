@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<script src="https://how2j.cn/study/vue.min.js"></script>
+<script src="https://how2j.cn/study/fetch.min.js"></script>
+<script src="https://how2j.cn/study/axios.min.js"></script>
+<!--    <div id="div1">-->
+<!--        {{gareen.name}}-->
+<!--    </div>-->
+
+<!--    <script>-->
+<!--        //准备数据-->
+<!--        var gareen = {"name":"盖伦","hp":616};-->
+
+<!--        //通过vue.js 把数据和对应的视图关联起来-->
+<!--        new Vue({-->
+<!--            el: '#div1',-->
+<!--            data: {-->
+<!--                message: gareen-->
+<!--            }-->
+<!--        })-->
+<!--    </script>-->
+<!--<div id="div2">-->
+<!--    <div>一共点击了 {{clickNumber}} 次</div>-->
+<!--    <button v-on:click="count">点击</button>-->
+<!--</div>-->
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el: '#div2',-->
+<!--        data: {-->
+<!--            clickNumber: 0-->
+<!--        },-->
+<!--        methods: {-->
+<!--            count: function () {-->
+<!--                this.clickNumber++;-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--<style type="text/css">-->
+<!--    * {-->
+<!--        margin: 0 auto;-->
+<!--        text-align: center;-->
+<!--        line-height: 40px;-->
+<!--    }-->
+
+<!--    div {-->
+<!--        width: 100px;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+
+<!--    #grandFather {-->
+<!--        background: green;-->
+<!--    }-->
+
+<!--    #father {-->
+<!--        background: blue;-->
+<!--    }-->
+
+<!--    #me {-->
+<!--        background: hotpink;-->
+<!--    }-->
+
+<!--    #son {-->
+<!--        background: #ff4225;-->
+<!--    }-->
+<!--</style>-->
+<!--<div id="count">-->
+<!--    <div id="grandFather" v-on:click="doc">grandFather-->
+<!--        <div id="father" v-on:click.once="doc">father-->
+<!--            <div id="me" v-on:click="doc">me-->
+<!--                <div id="son" v-on:click="doc">son-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <script>-->
+<!--        new Vue({-->
+<!--            el: '#count',-->
+<!--            data: {-->
+<!--                id: ''-->
+<!--            },-->
+<!--            methods: {-->
+<!--                doc: function () {-->
+<!--                    this.id = event.currentTarget.id;-->
+<!--                    alert(this.id)-->
+<!--                }-->
+<!--            }-->
+<!--        })-->
+<!--    </script>-->
+<!--<div id="div1">-->
+
+<!--    <a href="http://12306.com" @click="jump" >正常的链接 http://12306.com</a>-->
+
+<!--    <br>-->
+<!--    <a href="http://12306.com" @click.prevent="jump" >prevent jump()之后的链接 http://12306.com</a>-->
+<!--    <br>-->
+<!--    <a href="http://12306.com" @click.prevent >纯prevent之后的链接 http://12306.com</a>-->
+
+<!--    <br>-->
+<!--    <br>-->
+<!--    <form @submit="jump" action="http://12306.com">-->
+<!--        <button type="submit">正常的form</button>-->
+<!--    </form>-->
+<!--    <form @submit.prevent="jump" action="http://12306.com">-->
+<!--        <button type="submit">prevent jump()之后的form</button>-->
+<!--    </form>-->
+<!--    <form @submit.prevent action="http://12306.com">-->
+<!--        <button type="submit">纯prevent之后的form</button>-->
+<!--    </form>-->
+
+<!--</div>-->
+
+<!--<script>-->
+
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data: {-->
+<!--        },-->
+<!--        methods:{-->
+<!--            jump:function(){-->
+<!--                alert("jump()函数被调用");-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+
+<!--</script>-->
+<!--<div id="div1">-->
+<!--    <button v-on:click="toggle">切换隐藏显示</button>-->
+<!--    <div v-if="show"> 默认这一条是看不见的</div>-->
+<!--</div>-->
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data: {-->
+<!--            show:false-->
+<!--        },-->
+<!--        methods:{-->
+<!--            toggle: function(){-->
+<!--                this.show=!this.show;-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="div2">-->
+<!--    <button v-on:click="king">成功概率</button>-->
+<!--    <div v-if="number>80">中了500W</div>-->
+<!--    <div v-else-if="number>40">谢谢惠顾</div>-->
+<!--    <div v-else>中了1000W</div>-->
+<!--</div>-->
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el:'#div2',-->
+<!--        data:{-->
+<!--           number:0-->
+<!--        },-->
+<!--        methods:{-->
+<!--            king:function(){-->
+<!--                this.number=Math.random()*100;-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="div1">-->
+<!--    <table align="center" border="1">-->
+<!--        <tr >-->
+<!--            <td>name</td>-->
+<!--            <td>hp</td>-->
+<!--        </tr>-->
+
+<!--        <tr v-for="hero in heros">-->
+<!--            <td>{{hero.name}}</td>-->
+<!--            <td>{{hero.hp}}</td>-->
+<!--        </tr>-->
+
+<!--    </table>-->
+<!--</div>-->
+<!--<script>-->
+<!--    var data = [-->
+<!--        {name:"盖伦",hp:341},-->
+<!--        {name:"提莫",hp:225},-->
+<!--        {name:"安妮",hp:427},-->
+<!--        {name:"死歌",hp:893}-->
+<!--    ];-->
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data: {-->
+<!--            heros:data-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="div1">-->
+<!--    <div v-for="i in 10">-->
+<!--        {{ i }}-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el: '#div1'-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="div1">-->
+<!--    hero name:<input  v-model="name">-->
+<!--    <button v-on:click="count" >提交</button>-->
+<!--</div>-->
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el:'#div1',-->
+<!--        data:{-->
+<!--            name:"temmo"-->
+<!--        },-->
+<!--        methods:{-->
+<!--            count:function (){-->
+<!--                alert(this.name);-->
+<!--            }-->
+<!--    }-->
+<!--    })-->
+<!--</script>-->
+<!--<style>-->
+<!--    table tr td {-->
+<!--        border: 1px solid gray;-->
+<!--        padding: 10px;-->
+
+<!--    }-->
+
+<!--    table {-->
+<!--        border-collapse: collapse;-->
+<!--        width: 800px;-->
+<!--        table-layout: fixed;-->
+<!--    }-->
+
+<!--    tr.firstLine {-->
+<!--        background-color: lightGray;-->
+<!--    }-->
+<!--</style>-->
+
+<!--<div id="div1">-->
+<!--    <table align="center">-->
+<!--        <tr class="firstLine">-->
+<!--            <td>人民币</td>-->
+<!--            <td>美元</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td align="center" colspan="2">-->
+<!--                汇率： <input type="number" v-model.number="exchange"/>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td align="center">-->
+<!--                ￥: <input type="number" v-model.number="rmb"/>-->
+<!--            </td>-->
+<!--            <td align="center">-->
+<!--                $: {{ dollar }}-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el:'#div1',-->
+<!--        data:{-->
+<!--            exchange:6.4,-->
+<!--            rmb:0-->
+<!--            },-->
+<!--        computed:{-->
+<!--            doller:function (){-->
+<!--                return this.rmb/this.exchange;-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--computed 是有缓存的，只要rmb没有变化，dollar 会直接返回以前计算出来的值，而不会再次计算。 这样如果是复杂计算，就会节约不少时间。-->
+<!--而methods每次都会调用-->
+<style>
+    table tr td {
+        border: 1px solid gray;
+        padding: 10px;
+
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 800px;
+        table-layout: fixed;
+    }
+
+    tr.firstLine {
+        background-color: lightGray;
+    }
+</style>
+
+<!--<div id="div1">-->
+
+<!--    <table align="center" >-->
+<!--        <tr class="firstLine">-->
+<!--            <td>输入数据</td>-->
+<!--            <td>过滤后的结果</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td align="center">-->
+<!--                <input v-model= "data"  />-->
+<!--            </td>-->
+<!--            <td align="center">-->
+<!--                {{ data|capitalize|capitalizeLastLetter }}-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
+
+<!--</div>-->
+
+<!--<script>-->
+
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data: {-->
+<!--            data:''-->
+<!--        },-->
+<!--        filters:{-->
+<!--            capitalize:function(value) {-->
+<!--                if (!value) return '' //如果为空，则返回空字符串-->
+<!--                value = value.toString()-->
+<!--                return value.charAt(0).toUpperCase() + value.substring(1)-->
+<!--            },-->
+<!--            capitalizeLastLetter:function(value) {-->
+<!--                if (!value) return '' //如果为空，则返回空字符串-->
+<!--                value = value.toString()-->
+<!--                return value.substring(0,value.length-1)+ value.charAt(value.length-1).toUpperCase()-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+
+<!--</script>-->
+<!--全局过滤器-->
+<!--<script>-->
+<!--    Vue.filter('capitalize', function (value) {-->
+<!--        if (!value) return ''-->
+<!--        value = value.toString()-->
+<!--        return value.charAt(0).toUpperCase() + value.slice(1)-->
+<!--    })-->
+
+<!--    Vue.filter('capitalizeLastLetter', function (value) {-->
+<!--        if (!value) return '' //如果为空，则返回空字符串-->
+<!--        value = value.toString()-->
+<!--        return value.substring(0,value.length-1)+ value.charAt(value.length-1).toUpperCase()-->
+<!--    })-->
+
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data: {-->
+<!--            data:''-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--<style>-->
+<!--    div.product {-->
+<!--        float: left;-->
+<!--        border: 1px solid lightGray;-->
+<!--        width: 200px;-->
+<!--        margin: 10px;-->
+<!--        cursor: pointer;-->
+<!--    }-->
+<!--</style>-->
+
+<!--<div id="div1">-->
+<!--    <product name="MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮"></product>-->
+<!--    <product name="宾度 男士手包真皮大容量手拿包牛皮个性潮男包手抓包软皮信封包"></product>-->
+<!--    <product name="唯美诺新款男士手包男包真皮大容量小羊皮手拿包信封包软皮夹包潮"></product>-->
+<!--</div>-->
+<!--<script>-->
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        component:{-->
+<!--            'product':{-->
+<!--                props:['name'],-->
+<!--                template:'<div class="product">{{name}}</div>'-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--动态参数-->
+<!--<div id="div1">-->
+<!--    组件外的值：<input v-model="outName" ><br>-->
+<!--    <product v-bind:name="outName"></product>-->
+<!--</div>-->
+<!--<script>-->
+<!--            Vue.component('product',{-->
+<!--                props:['name'],-->
+<!--                template:'<div class="product" >{{name}}</div>'-->
+<!--            })-->
+<!--            new Vue({-->
+<!--                el:'#div1',-->
+<!--                data:{-->
+<!--                    outName:'产品名称'-->
+<!--                }-->
+<!--            })-->
+<!--</script>-->
+<!--自定义组件-->
+<!--<div id="div1">-->
+<!--    <product name="MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮"   sale="10"></product>-->
+<!--    <product name="宾度 男士手包真皮大容量手拿包牛皮个性潮男包手抓包软皮信封包"    sale="20"></product>-->
+<!--    <product name="唯美诺新款男士手包男包真皮大容量小羊皮手拿包信封包软皮夹包潮"    sale="30"></product>-->
+<!--</div>-->
+<!--<script>-->
+<!-- Vue.component('product',{-->
+<!--     props:['name','sale'],-->
+<!--     template:'<div class="product" v-on:click="show">{{name}} 销量{{sale}}</div>',-->
+<!--     methods:{-->
+<!--         show:function (){-->
+<!--             this.sale++-->
+<!--         }-->
+<!--     }-->
+<!-- })-->
+<!-- new Vue({-->
+<!--     el:'#div1',-->
+<!-- })-->
+<!--</script>-->
+<!--for-each遍历json数组-->
+<style>
+    div.product {
+        float: left;
+        border: 1px solid lightGray;
+        width: 200px;
+        margin: 10px;
+        cursor: pointer;
+    }
+
+    div.product:hover {
+        border: 1px solid #c40000;
+
+    }
+
+    div.price {
+        color: #c40000;
+        font-weight: bold;
+        font-size: 1.2em;
+        margin: 10px;
+    }
+
+    div.productName {
+        color: gray;
+        font-size: 0.8em;
+        margin: 10px;
+    }
+
+    div.sale {
+        float: left;
+        width: 100px;
+        border: 1px solid lightgray;
+        border-width: 1px 0px 0px 0px;
+        color: gray;
+        font-size: 0.8em;
+        padding-left: 10px;
+    }
+
+    div.review {
+        overflow: hidden;
+        border: 1px solid lightgray;
+        border-width: 1px 0px 0px 1px;
+        color: gray;
+        font-size: 0.8em;
+        padding-left: 10px;
+    }
+</style>
+<!--<div id="div1">-->
+<!--    <product v-for="item in products" v-bind:product="item"></product>-->
+<!--</div>-->
+<!--<script>-->
+<!--    Vue.component('product', {-->
+<!--        props:['product'],-->
+<!--        template: '<div class="product" v-on:click="increaseSale">{{product.name}} 销量: {{product.sale}} </div>',-->
+<!--        methods:{-->
+<!--            increaseSale:function(){-->
+<!--                this.product.sale++-->
+<!--            }-->
+<!--        }-->
+<!--    })-->
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data: {-->
+<!--            products: [-->
+<!--                {"name": "MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮", "sale": "18"},-->
+<!--                {"name": "宾度 男士手包真皮大容量手拿包牛皮个性潮男包手抓包软皮信封包", "sale": "35"},-->
+<!--                {"name": "唯美诺新款男士手包男包真皮大容量小羊皮手拿包信封包软皮夹包潮", "sale": "29"}-->
+<!--            ]-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+
+
+<!--<div id="tempalate" style="display:none">-->
+<!--    <div class="product" v-on:click="increaseSales">-->
+<!--        <div class="price">-->
+<!--            ¥ {{product.price}}-->
+<!--        </div>-->
+<!--        <div class="productName">-->
+<!--            {{product.name}}-->
+<!--        </div>-->
+<!--        <div class="sale"> 月成交 {{product.sale}} 笔</div>-->
+<!--        <div class="review"> 评价 {{product.review}} </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div id="div1">-->
+<!--    <product v-for="item in products" v-bind:product="item"></product>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--    var tempalateDiv=document.getElementById("tempalate").innerHTML;-->
+<!--    var templateObject = {-->
+<!--        props: ['product'],-->
+<!--        template: tempalateDiv,-->
+<!--        methods: {-->
+<!--            increaseSales: function () {-->
+<!--                this.product.sale = parseInt(this.product.sale);-->
+<!--                this.product.sale ++-->
+<!--                // this.$emit('increment')-->
+<!--            }-->
+<!--        }-->
+
+<!--    }-->
+
+<!--    Vue.component('product', templateObject)-->
+
+<!--    new Vue({-->
+<!--        el: '#div1',-->
+<!--        data:{-->
+<!--            products:[-->
+<!--                {"name":"MAXFEEL休闲男士手包真皮手拿包大容量信封包手抓包夹包软韩版潮","price":"889","sale":"18","review":"5"},-->
+<!--                {"name":"宾度 男士手包真皮大容量手拿包牛皮个性潮男包手抓包软皮信封包","price":"322","sale":"35","review":"12"},-->
+<!--                {"name":"唯美诺新款男士手包男包真皮大容量小羊皮手拿包信封包软皮夹包潮","price":"523","sale":"29","review":"3"},-->
+<!--            ]-->
+<!--        }-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="div1">-->
+
+<!--    <div v-xart="{color:'blue'}"> 好好学习，天天向上 </div>-->
+
+<!--</div>-->
+
+<!--<script>-->
+
+<!--    Vue.directive('xart', function (el,binding) {-->
+<!--        // el.innerHTML = el.innerHTML + '( ' + binding.value.text + ' )'-->
+<!--        el.style.color = binding.value.color-->
+<!--    })-->
+
+<!--    new Vue({-->
+<!--        el: '#div1'-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="hero">-->
+<!--</div>-->
+<!--<script>-->
+<!--    var url ="json.txt"-->
+<!--    fetch(url).then(function (response){-->
+<!--        response.json().then(function (jsonObject){-->
+<!--            var jsonString =JSON.stringify(jsonObject)-->
+<!--            document.getElementById("hero").innerHTML="通过fetch获取到的json数据:"+jsonString;-->
+<!--        })-->
+<!--    })-->
+<!--</script>-->
+<!--<div id="hero">-->
+
+<!--</div>-->
+
+<!--<script>-->
+<!--    var url = "json.txt"-->
+<!--    axios.get(url).then(function(response) {-->
+<!--        var jsonObject = response.data;-->
+<!--        var jsonString = JSON.stringify(jsonObject)-->
+<!--        document.getElementById("hero").innerHTML = "通过 axios 获取到的json数据："+ jsonString;-->
+<!--    })-->
+
+<!--</script>-->
+<div id="div1">
+    <table class="table table-bordered">
+        <tr >
+            <td>name</td>
+            <td>hp</td>
+        </tr>
+        <tr v-for="hero in heros">
+            <td>{{hero.name}}</td>
+            <td>{{hero.hp}}</td>
+        </tr>
+    </table>
+</div>
+<script>
+    var url="json.txt"
+    new Vue({
+        el:'#div1',
+        data:{
+            heros:[]
+        },
+        mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+            var self = this
+            axios.get(url).then(function(response) {
+                var jsonObject = response.data;
+                var jsonString = JSON.stringify(jsonObject)
+                self.heros = jsonObject;
+            })
+        }
+    })
+</script>
+</html>
+

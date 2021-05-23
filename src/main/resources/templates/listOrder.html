@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/admin/adminHeader::html('订单管理')"></head>
+<body>
+<div class="layui-layout layui-layout-admin" >
+    <div class="layui-header">
+        <div class="layui-logo">商城后台管理系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="admin">所有分类</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                         class="layui-nav-img">
+                    当前用户
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">set 1</a></dd>
+                    <dd><a href="">set 2</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">登陆</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">商品管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="admin">商品分类</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="admin_user_list">用户信息</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="admin_order_list">订单管理</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;" id="workingArea">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>状态</th>
+                    <th>金额</th>
+                    <th >商品数量</th>
+                    <th >买家名称</th>
+                    <th>创建时间</th>
+                    <th>支付时间</th>
+                    <th>发货时间</th>
+                    <th>确认收货时间</th>
+                    <th >操作</th>
+                </tr>
+                </thead>
+                <template v-for="bean in beans ">
+                    <tr >
+                        <td>
+                            {{bean.statusDesc}}
+                        </td>
+                        <td>
+                            {{bean.total}}
+                        </td>
+                        <td>
+                            {{bean.totalNumber}}
+                        </td>
+                        <td>
+                            {{bean.user.name}}
+                        </td>
+                        <td>
+                            {{bean.createDate | formatDateFilter}}
+                        </td>
+                        <td>
+                            {{bean.payDate | formatDateFilter}}
+                        </td>
+                        <td>
+                            {{bean.deliveryDate | formatDateFilter}}
+                        </td>
+                        <td>
+                            {{bean.confirmDate | formatDateFilter}}
+                        </td>
+                        <td>
+                            <button @click="showOrderItems(bean)" class="layui-btn">详情</button>
+
+                            <button v-if="bean.status=='waitDelivery'" @click="deliveryOrder(bean,$event)" class="layui-btn">发货</button>
+                        </td>
+                    </tr>
+                    <tr style="display:none" :id="'orderItemsTR'+bean.id">
+                        <td colspan="10" align="center">
+                            <div >
+                                <table width="800px" align="center" >
+                                    <tr v-for="orderItem in bean.orderItems">
+                                        <td align="left">
+                                            <img width="40px" height="40px" :src="'img/productSingle/'+orderItem.product.firstProductImage.id+'.jpg'">
+                                        </td>
+
+                                        <td align="center">
+                                            <a :href="'product?product.id='+orderItem.product.id" >
+                                               {{orderItem.product.name}}
+                                            </a>
+                                        </td>
+                                        <td align="center">
+                                         {{orderItem.number}}个
+                                        </td>
+                                        <td align="center">
+                                            单价：￥{{orderItem.product.promotePrice}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+            <div th:replace="include/admin/adminPage::html"></div>
+        </div>
+
+        <div class="layui-footer">
+            <!-- 底部固定区域 -->
+            底部固定区域
+        </div>
+    </div>
+
+</div>
+</body>
+<script th:src="@{/static/layui/layui.js}"></script>
+<script>
+    $(function(){
+
+        var data4Vue = {
+            uri:'orders',
+            beans: [],
+            pagination:{},
+        };
+
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted:function(){ //mounted　表示这个 Vue 对象加载成功了
+                this.list(0);
+            },
+            methods: {
+                list:function(start){
+                    var url =  this.uri+ "?start="+start;
+                    axios.get(url).then(function(response) {
+                        vue.pagination = response.data;
+                        vue.beans = response.data.content;
+                    });
+                },
+                showOrderItems: function(order){
+                    var id = order.id;
+                    $("#orderItemsTR"+id).show();
+                },
+                jump: function(page){
+                    jump(page,vue); //定义在adminHeader.html 中
+                },
+                jumpByNumber: function(start){
+                    jumpByNumber(start,vue);
+                },
+                deliveryOrder:function(order,e){
+                    var url =  "deliveryOrder/"+order.id;
+                    axios.put(url).then(function(response) {
+                        $(e.target).hide();
+                    });
+                }
+            }
+        });
+    });
+</script>
+</html>

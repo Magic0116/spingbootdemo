@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/admin/adminHeader::html('属性图片管理')"></head>
+<body>
+<div class="layui-layout layui-layout-admin" id="workingArea">
+    <div class="layui-header">
+        <div class="layui-logo">商城后台管理系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item"><a href="admin">所有分类</a></li>
+            <li class="layui-nav-item">
+                <!--                <a href="'admin_product_list?cid='+category.id">{{category.name}}</a>-->
+                {{category.name}}>
+                <!--            <li class="layui-nav-item">-->
+                <!--                <a href="javascript:;">nav groups</a>-->
+                <!--                <dl class="layui-nav-child">-->
+                <!--                    <dd><a href="">menu 11</a></dd>-->
+                <!--                    <dd><a href="">menu 22</a></dd>-->
+                <!--                    <dd><a href="">menu 33</a></dd>-->
+                <!--                </dl>-->
+                <!--            </li>-->
+            <li class="layui-nav-item">{{product.name}}></li>
+            <li class="layui-nav-item">产品图片管理</li>
+
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="//tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
+                         class="layui-nav-img">
+                    当前用户
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">set 1</a></dd>
+                    <dd><a href="">set 2</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">登陆</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">商品管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="admin">商品分类</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item">
+                    <a href="javascript:;">用户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="admin_user_list">用户信息</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item"><a href="admin_order_list">订单管理</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            <div class="layui-bg-gray" style="padding: 30px;">
+                <div class="layui-row layui-col-space15">
+
+                    <div class="layui-col-md6">
+                        <div class="layui-panel">
+                            <div style="padding: 50px 30px;">
+                                <div>新增产品<b > 单个 </b>图片</div>
+                                <table class="layui-table">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>产品单个图片缩略图</th>
+                                        <th>删除</th>
+                                    </tr>
+                                    <tbody>
+                                    <tr v-for="pi in singleProductImages">
+                                        <td>{{pi.id}}</td>
+                                        <td>
+                                            <a title="点击查看原图" :href="'img/productSingle/'+pi.id+'.jpg'"><img
+                                                    height="50px" :src="'img/productSingle/'+pi.id+'.jpg'"></a>
+                                        </td>
+                                        <td><a href="#nowhere" @click="deleteBean(pi.id)"
+                                               class="layui-btn layui-btn-danger">删除</span></a></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-panel">
+                            <div style="padding: 50px 30px;">
+                                <div>新增产品<b > 详情 </b>图片</div>
+                                <table class="layui-table">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>产品详情图片缩略图</th>
+                                        <th>删除</th>
+                                    </tr>
+                                    <tbody>
+                                    <tr v-for="pi in detailProductImages">
+                                        <td>{{pi.id}}</td>
+                                        <td>
+                                            <a title="点击查看原图" :href="'img/productDetail/'+pi.id+'.jpg'"><img height="50px" :src="'img/productDetail/'+pi.id+'.jpg'"></a>
+                                        </td>
+                                        <td><a href="#nowhere" @click="deleteBean(pi.id)"  class="layui-btn layui-btn-danger">删除</a></td>
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!--                <div th:replace="include/admin/adminPage::html"></div>-->
+            </div>
+            <div class="layui-bg-gray" style="padding: 30px;">
+                <div class="layui-row layui-col-space15">
+                    <div class="layui-col-md6">
+                        <div class="layui-panel">
+                            <div style="padding: 50px 30px;">
+                                <div>新增产品<b > 单个 </b>图片</div>
+                                <table class="layui-table">
+                                    <tr>
+                                        <td>请选择本地图片 尺寸400x400为佳</td>
+                                    </tr>
+                                    <tr>
+                                        <input id="singlePic" type="file" @change="getSingleFile($event)" name="image"
+                                               class="layui-input"/>
+                                    </tr>
+                                    <tr class="submitTR">
+                                        <td colspan="2" align="center">
+                                            <a href="#nowhere" @click="addSingle" class="layui-btn">提交</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-col-md6">
+                        <div class="layui-panel">
+                            <div style="padding: 50px 30px;">
+                                <div>新增产品<b > 详情 </b>图片</div>
+                                <table class="layui-table">
+                                    <tr>
+                                        <td>请选择本地图片 宽度790  为佳</td>
+                                    </tr>
+                                    <tr>
+                                        <input id="detailPic" type="file" @change="getDetailFile($event)" name="image"
+                                               class="layui-input"/>
+                                    </tr>
+                                    <tr class="submitTR">
+                                        <td colspan="2" align="center">
+                                            <a href="#nowhere" @click="addDetail" class="layui-btn">提交</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        底部固定区域
+    </div>
+</div>
+
+</div>
+
+</body>
+<script th:src="@{/static/layui/layui.js}"></script>
+<script>
+    $(function () {
+        var pid = getUrlParms("pid");
+        var data4Vue = {
+            uri: 'productImages',
+            singleProductImages: [],
+            detailProductImages: [],
+            product: '',
+            category: '',
+            singleFile: '',
+            detailFile: ''
+        };
+
+        //ViewModel
+        var vue = new Vue({
+            el: '#workingArea',
+            data: data4Vue,
+            mounted: function () { //mounted　表示这个 Vue 对象加载成功了
+                this.listSingles();
+                this.listDetails();
+                this.getProduct(pid);
+            },
+            methods: {
+                getProduct: function (pid) {
+                    var url = "products/" + pid;
+                    axios.get(url).then(function (response) {
+                        vue.product = response.data;
+                        vue.category = vue.product.category;
+                    })
+                },
+                listSingles: function (start) {
+                    var url = "products/" + pid + "/" + this.uri + "?type=single";
+                    axios.get(url).then(function (response) {
+                        vue.singleProductImages = response.data;
+                    });
+                },
+                listDetails: function (start) {
+                    var url = "products/" + pid + "/" + this.uri + "?type=detail";
+                    axios.get(url).then(function (response) {
+                        vue.detailProductImages = response.data;
+                    });
+                },
+                addSingle: function () {
+                    if (!checkEmpty(this.singleFile, "单个产品图片"))
+                        return;
+
+                    var url = this.uri + "?type=single&pid=" + pid;
+
+                    var formData = new FormData();
+                    formData.append("image", this.singleFile);
+
+                    axios.post(url, formData).then(function (response) {
+                        vue.listSingles();
+                        $("#singlePic").val('');
+                        vue.singleFile = null;
+                    });
+                },
+                addDetail: function () {
+                    if (!checkEmpty(this.detailFile, "详情产品图片"))
+                        return;
+
+                    var url = this.uri + "?type=detail&pid=" + pid;
+
+                    var formData = new FormData();
+                    formData.append("image", this.detailFile);
+
+                    axios.post(url, formData).then(function (response) {
+                        vue.listDetails();
+                        $("#detailPic").val('');
+                        vue.detailFile = null;
+                    });
+                },
+                deleteBean: function (id) {
+                    if (!checkDeleteLink())
+                        return;
+                    var url = this.uri + "/" + id;
+                    axios.delete(url).then(function (response) {
+                        vue.listSingles();
+                        vue.listDetails();
+                    });
+                },
+                getSingleFile: function (event) {
+                    this.singleFile = event.target.files[0];
+                },
+                getDetailFile: function (event) {
+                    this.detailFile = event.target.files[0];
+                },
+            }
+
+        });
+    });
+
+</script>
+</html>
